@@ -7,3 +7,4 @@ website/assets/*.png
 website/assets/*.jpg
 # Keep the ones actually used if they are small, but let's be careful with memory.
 # Actually, better to just push them if they are part of the site.
+.vercel

@@ -2,14 +2,11 @@
   "version": 2,
   "builds": [
     {
-      "src": "genealogy-tool/app.py",
-      "use": "@vercel/python"
+      "src": "website/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "genealogy-tool/app.py"
-    }
+    { "src": "/(.*)", "dest": "website/$1" }
   ]
 }
