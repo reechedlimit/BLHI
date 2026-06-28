@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* Hero Override for Landing Page */
+    main {
+        padding: 0;
+    }
+    
+    .landing-hero {
+        height: 80vh;
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("{{ url_for('static', filename='assets/hero-bg.jpg') }}");
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+        padding: 0 2rem;
+        border-bottom: 5px solid var(--primary-gold);
+    }
+
+    .landing-hero h1 {
+        color: white;
+        font-size: 3.5rem;
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+        text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        max-width: 900px;
+    }
+
+    .landing-hero p {
+        font-size: 1.3rem;
+        margin-bottom: 2.5rem;
+        max-width: 700px;
+        opacity: 0.9;
+        font-weight: 300;
+    }
+
+    .section-padding {
+        padding: 80px 0;
+    }
+
+    /* Features */
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin-top: -50px;
+    }
+
+    .feature-card {
+        background: white;
+        padding: 3rem 2rem;
+        text-align: center;
+        border-radius: 8px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        border-top: 5px solid var(--primary-gold);
+    }
+
+    .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+        display: block;
+    }
+
+    /* Void Section */
+    .void-section {
+        background-color: var(--dark-charcoal);
+        color: var(--light-text);
+    }
+
+    .void-section h2 {
+        color: var(--primary-gold);
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .void-section p {
+        font-size: 1.1rem;
+        opacity: 0.8;
+        margin-bottom: 1.5rem;
+    }
+
+    .void-highlight {
+        font-family: var(--heading-font);
+        font-size: 1.8rem;
+        color: var(--soft-sand);
+        font-weight: 700;
+        margin-top: 2rem;
+        border-left: 4px solid var(--primary-gold);
+        padding-left: 1.5rem;
+    }
+
+    @media (max-width: 992px) {
+        .features-grid { grid-template-columns: 1fr; margin-top: 2rem; }
+        .landing-hero h1 { font-size: 2.5rem; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="landing-hero">
+    <div class="fade-in">
+        <h1>Turn the pain of erased histories into the power of rediscovered identity.</h1>
+        <p>Document your lineage, preserve historical records, and reclaim your family's story for generations to come.</p>
+        <div class="cta-group">
+            {% if session.user_id %}
+                <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
+                <a href="{{ url_for('new_tree') }}" class="btn btn-outline" style="border-color: white; color: white; margin-left: 1rem;">New Tree</a>
+            {% else %}
+                <a href="{{ url_for('register') }}" class="btn btn-primary">Start Your Journey</a>
+                <a href="{{ url_for('login') }}" class="btn btn-outline" style="border-color: white; color: white; margin-left: 1rem;">Sign In</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<div class="container" style="margin-bottom: 80px;">
+    <div class="features-grid">
+        <div class="feature-card">
+            <span class="feature-icon">🌳</span>
+            <h3>Preserve</h3>
+            <p>Build comprehensive family trees and document every ancestor to ensure their names are never forgotten.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">📄</span>
+            <h3>Discover</h3>
+            <p>Upload census records, certificates, and photos to create a secure digital archive of your family heritage.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">📖</span>
+            <h3>Celebrate</h3>
+            <p>Write and preserve oral histories, memories, and personal narratives that bring your ancestors' stories to life.</p>
+        </div>
+    </div>
+</div>
+
+<section class="void-section section-padding">
+    <div class="container">
+        <div style="max-width: 800px;">
+            <h2>Reclaiming What Was Taken</h2>
+            <p>For generations, Black family histories were systematically fragmented. The 1870 "Census Wall" stands as a barrier for many, but it is not the end of the story.</p>
+            <p>The Black Lineage & Heritage Institute gives you the tools to piece together your heritage and pass it down with pride.</p>
+            <div class="void-highlight">
+                "We are not defined by what was stolen from us. We are defined by what we rebuild."
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding" style="background-color: var(--soft-sand);">
+    <div class="container text-center">
+        <h2 style="margin-bottom: 2rem;">Ready to find your roots?</h2>
+        {% if not session.user_id %}
+            <a href="{{ url_for('register') }}" class="btn btn-primary">Create Your Free Account</a>
+        {% else %}
+            <a href="{{ url_for('dashboard') }}" class="btn btn-primary">View Your Trees</a>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

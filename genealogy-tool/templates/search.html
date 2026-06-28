@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Search{% endblock %}
+{% block content %}
+<div class="section-header">
+    <h2>Search Your Lineage</h2>
+</div>
+
+<div class="card" style="margin-bottom: 3rem;">
+    <form method="GET" action="{{ url_for('search') }}" class="search-form" style="max-width: 100%;">
+        <input type="text" name="q" placeholder="Search by name, place, story content..." value="{{ query }}" required>
+        <button type="submit" class="btn btn-primary">Search Archive</button>
+    </form>
+    {% if not query %}
+        <p style="text-align: center; opacity: 0.6; font-size: 0.9rem;">Find people, stories, and records across all your documented family lineages.</p>
+    {% endif %}
+</div>
+
+{% if query and not results.people and not results.stories and not results.records %}
+    <div class="empty-state">
+        <div class="icon">🔍</div>
+        <h3>No Results Found</h3>
+        <p>Your search for "{{ query }}" didn't return any matches. Try broad terms like a family name or a city.</p>
+    </div>
+{% endif %}
+
+{% if results.people %}
+<div class="section-title">
+    <h3>People ({{ results.people|length }})</h3>
+</div>
+<div class="people-grid" style="margin-bottom: 3rem;">
+    {% for person in results.people %}
+    <div class="person-card">
+        <h4>{{ person.first_name }} {{ person.last_name }}</h4>
+        <div class="dates">
+            {{ person.birth_date or '?' }} — {{ person.death_date or '?' }}
+        </div>
+        {% if person.birth_place or person.death_place %}
+            <div class="places" style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.8;">
+                {% if person.birth_place %}📍 {{ person.birth_place }}{% endif %}
+                {% if person.death_place %}<br>🕊️ {{ person.death_place }}{% endif %}
+            </div>
+        {% endif %}
+        <div class="tags">
+            <span class="tag">Lineage: {{ person.tree_name }}</span>
+        </div>
+        <div class="actions" style="margin-top: 1rem; border-top: 1px solid var(--soft-sand); padding-top: 0.5rem;">
+            <a href="{{ url_for('view_tree', tree_id=person.tree_id) }}" class="btn btn-secondary btn-sm">Open Tree</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if results.stories %}
+<div class="section-title">
+    <h3>Stories ({{ results.stories|length }})</h3>
+</div>
+<div class="card" style="margin-bottom: 3rem;">
+    {% for story in results.stories %}
+    <div style="margin-bottom: 1.5rem; {% if not loop.last %}border-bottom: 1px solid var(--soft-sand); padding-bottom: 1.5rem;{% endif %}">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+                <h4>{{ story.title }}</h4>
+                <div class="tags">
+                    <span class="tag">Lineage: {{ story.tree_name }}</span>
+                    <span class="tag">By {{ story.author }}</span>
+                </div>
+            </div>
+            <a href="{{ url_for('view_tree', tree_id=story.tree_id) }}" class="btn btn-secondary btn-sm">Open Tree</a>
+        </div>
+        <div class="story-preview">{{ story.content[:250] }}{% if story.content|length > 250 %}...{% endif %}</div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if results.records %}
+<div class="section-title">
+    <h3>Digital Records ({{ results.records|length }})</h3>
+</div>
+<div class="card">
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Record</th>
+                    <th>Lineage</th>
+                    <th>Type</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in results.records %}
+                <tr>
+                    <td><strong>{{ record.title }}</strong></td>
+                    <td>{{ record.tree_name }}</td>
+                    <td><span class="tag">{{ record.record_type }}</span></td>
+                    <td><a href="{{ url_for('view_tree', tree_id=record.tree_id) }}" class="btn btn-secondary btn-sm">Open Tree</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
