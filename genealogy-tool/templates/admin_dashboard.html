@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin: 24px 0;">
+    <h1>🛡️ Admin Dashboard</h1>
+    <div style="display: flex; gap: 8px;">
+        <a href="{{ url_for('admin_users') }}" class="btn btn-secondary">👥 Manage Users</a>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline">📊 My Dashboard</a>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="number">{{ user_count }}</div>
+        <div class="label">Total Users</div>
+    </div>
+    <div class="stat-card">
+        <div class="number">{{ tree_count }}</div>
+        <div class="label">Family Trees</div>
+    </div>
+    <div class="stat-card">
+        <div class="number">{{ person_count }}</div>
+        <div class="label">People</div>
+    </div>
+    <div class="stat-card">
+        <div class="number">{{ story_count }}</div>
+        <div class="label">Stories</div>
+    </div>
+    <div class="stat-card">
+        <div class="number">{{ record_count }}</div>
+        <div class="label">Records</div>
+    </div>
+    <div class="stat-card">
+        <div class="number">{{ totp_count }}</div>
+        <div class="label">2FA Enabled</div>
+    </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    <div class="card">
+        <h3>Users by Role</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Role</th>
+                    <th>Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for role, count in roles.items() %}
+                <tr>
+                    <td>
+                        {% if role == 'owner' %}👑 Owner
+                        {% elif role == 'admin' %}🛡️ Admin
+                        {% elif role == 'editor' %}✏️ Editor
+                        {% else %}👤 User{% endif %}
+                    </td>
+                    <td><strong>{{ count }}</strong></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h3>Quick Actions</h3>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+            <a href="{{ url_for('admin_users') }}" class="btn btn-secondary" style="text-align: center;">
+                👥 Manage Users & Roles
+            </a>
+            <a href="{{ url_for('search') }}?q=" class="btn btn-outline" style="text-align: center;">
+                🔍 Global Search
+            </a>
+            <a href="{{ url_for('setup_2fa') }}" class="btn btn-outline" style="text-align: center;">
+                🔐 My 2FA Settings
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="card" style="margin-top: 20px;">
+    <h3>Security Status</h3>
+    <p>
+        <strong>{{ totp_count }}</strong> of <strong>{{ user_count }}</strong> users have 2FA enabled
+        ({{ (totp_count / user_count * 100) | int if user_count > 0 else 0 }}% adoption).
+    </p>
+    <div style="background: var(--light); border-radius: 8px; height: 24px; margin-top: 8px; overflow: hidden;">
+        <div style="background: var(--success); height: 100%; width: {{ (totp_count / user_count * 100) if user_count > 0 else 0 }}%; transition: width 0.3s;"></div>
+    </div>
+</div>
+{% endblock %}

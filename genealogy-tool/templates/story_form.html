@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Write a Story{% endblock %}
+{% block content %}
+<div class="card" style="max-width: 800px; margin: 60px auto;">
+    <h3>📖 Record an Oral History</h3>
+    <p style="margin-bottom: 2rem; opacity: 0.8;">
+        Family stories are the heart of your heritage. Preserve a memory, a narrative, or a tradition.
+    </p>
+
+    <form method="POST">
+        <div class="form-group">
+            <label for="title">Title of the Story</label>
+            <input type="text" id="title" name="title" required placeholder="e.g., The Migration North" value="{{ request.form.title if request.form else '' }}">
+        </div>
+
+        <div class="form-group">
+            <label for="content">The Narrative</label>
+            <textarea id="content" name="content" required placeholder="Write the full story here..." style="min-height: 250px;">{{ request.form.content if request.form else '' }}</textarea>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="person_id">Associated Ancestor (optional)</label>
+                <select id="person_id" name="person_id">
+                    <option value="">— Select —</option>
+                    {% for person in people %}
+                        <option value="{{ person.id }}">{{ person.first_name }} {{ person.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="author">Recorded By</label>
+                <input type="text" id="author" name="author" placeholder="Your name" value="{{ request.form.author if request.form else session.user_name }}">
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" class="btn btn-primary">Preserve Story</button>
+            <a href="{{ url_for('view_tree', tree_id=tree_id) }}" class="btn btn-outline">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

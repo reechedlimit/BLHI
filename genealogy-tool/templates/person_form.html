@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}{{ action }} Ancestor{% endblock %}
+{% block content %}
+<div class="card" style="max-width: 800px; margin: 60px auto;">
+    <h3>{{ action }} Ancestor Details</h3>
+    <p style="margin-bottom: 2rem; opacity: 0.8;">
+        {% if action == 'Add' %}Add a family member to this lineage. Every name is a story waiting to be told.{% else %}Update details for this ancestor.{% endif %}
+    </p>
+
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="first_name">Given Name(s)</label>
+                <input type="text" id="first_name" name="first_name" required placeholder="First name" value="{{ person.first_name if person else '' }}">
+            </div>
+            <div class="form-group">
+                <label for="last_name">Family Name</label>
+                <input type="text" id="last_name" name="last_name" required placeholder="Last name" value="{{ person.last_name if person else '' }}">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="birth_date">Birth Date</label>
+                <input type="text" id="birth_date" name="birth_date" placeholder="e.g., 1885 or 1885-06-15" value="{{ person.birth_date if person else '' }}">
+            </div>
+            <div class="form-group">
+                <label for="death_date">Death Date</label>
+                <input type="text" id="death_date" name="death_date" placeholder="e.g., 1963 or 1963-04-12" value="{{ person.death_date if person else '' }}">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="birth_place">Birth Place</label>
+                <input type="text" id="birth_place" name="birth_place" placeholder="City, State/County" value="{{ person.birth_place if person else '' }}">
+            </div>
+            <div class="form-group">
+                <label for="death_place">Resting Place</label>
+                <input type="text" id="death_place" name="death_place" placeholder="City, State/County" value="{{ person.death_place if person else '' }}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="notes">Biography & Legacy</label>
+            <textarea id="notes" name="notes" placeholder="Occupation, notable life events, or anything that honors their memory...">{{ person.notes if person else '' }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="photo">Portrait / Image (optional)</label>
+            <input type="file" id="photo" name="photo" accept="image/*">
+            {% if person and person.photo_url %}
+                <p style="margin-top: 0.5rem; font-size: 0.85rem;">
+                    Current portrait: <a href="{{ person.photo_url }}" target="_blank" style="color: var(--primary-gold);">View existing</a>
+                </p>
+            {% endif %}
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" class="btn btn-primary">{{ action }} Ancestor</button>
+            {% if person %}
+                <a href="{{ url_for('view_tree', tree_id=person.tree_id) }}" class="btn btn-outline">Cancel</a>
+            {% else %}
+                <a href="{{ url_for('view_tree', tree_id=tree_id) }}" class="btn btn-outline">Cancel</a>
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endblock %}

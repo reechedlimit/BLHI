@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="section-header">
+    <h2>Welcome, {{ user_name }}</h2>
+    <a href="{{ url_for('new_tree') }}" class="btn btn-gold">🌳 New Family Tree</a>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="number">{{ trees|length }}</div>
+        <div class="label">Family Trees</div>
+    </div>
+    <div class="stat-card">
+        <div class="number">{{ person_count }}</div>
+        <div class="label">People Recorded</div>
+    </div>
+    <div class="stat-card">
+        <div class="number">{{ story_count }}</div>
+        <div class="label">Stories Written</div>
+    </div>
+    <div class="stat-card">
+        <div class="number">{{ record_count }}</div>
+        <div class="label">Records Uploaded</div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Your Lineages</h3>
+    {% if trees %}
+    <div class="tree-list">
+        {% for tree in trees %}
+        <div class="tree-item">
+            <div>
+                <h4>{{ tree.name }}</h4>
+                {% if tree.description %}
+                    <p class="desc">{{ tree.description }}</p>
+                {% endif %}
+                <div class="tags">
+                    <span class="tag">Created {{ tree.created_at[:10] }}</span>
+                </div>
+            </div>
+            <div class="tree-actions">
+                <a href="{{ url_for('view_tree', tree_id=tree.id) }}" class="btn btn-secondary btn-sm">Open Tree</a>
+                <a href="{{ url_for('edit_tree', tree_id=tree.id) }}" class="btn btn-outline btn-sm">Edit</a>
+                <form method="POST" action="{{ url_for('delete_tree', tree_id=tree.id) }}" style="display: inline;" onsubmit="return confirm('Delete this tree and all its data? This cannot be undone.');">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <div class="icon">🌳</div>
+        <p>You haven't started documenting a lineage yet.</p>
+        <a href="{{ url_for('new_tree') }}" class="btn btn-gold" style="margin-top: 16px;">Begin Your Journey</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

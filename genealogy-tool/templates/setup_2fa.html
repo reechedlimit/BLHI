@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block title %}Two-Factor Authentication Settings{% endblock %}
+{% block content %}
+<div class="card" style="max-width: 650px; margin: 40px auto;">
+    {% if enabled and just_enabled %}
+        {# ── Step 3: Success + Recovery Codes ── #}
+        <h2 style="text-align: center;">✅ 2FA Enabled Successfully!</h2>
+
+        <div class="flash-message success" style="position: static; animation: none; text-align: center; font-size: 1.1rem;">
+            🔐 Two-factor authentication is now active on your account.
+        </div>
+
+        <div style="margin: 24px 0;">
+            <h3>⚠️ Save Your Recovery Codes</h3>
+            <p style="color: var(--text-light);">
+                These recovery codes are <strong>only shown once</strong>. Each code can be used 
+                <strong>one time</strong> to access your account if you lose access to your authenticator app.
+                Store them somewhere safe (password manager, safe deposit box, etc.).
+            </p>
+        </div>
+
+        <div style="background: var(--primary); color: white; border-radius: 8px; padding: 20px; margin: 16px 0; font-family: 'Courier New', monospace;">
+            {% for code in recovery_codes %}
+                <div style="font-size: 1.2rem; letter-spacing: 3px; padding: 4px 0;">{{ code }}</div>
+            {% endfor %}
+        </div>
+
+        <div style="margin-top: 16px;">
+            <p style="font-size: 0.85rem; color: var(--text-light);">
+                🔒 I confirm I have saved my recovery codes.
+            </p>
+        </div>
+
+        <div style="margin-top: 24px; text-align: center;">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-primary" style="font-size: 1.1rem; padding: 12px 32px;">
+                📊 Go to Dashboard
+            </a>
+        </div>
+
+    {% elif enabled %}
+        {# ── 2FA is already enabled ── #}
+        <h2 style="text-align: center;">🔐 Two-Factor Authentication</h2>
+
+        <div class="flash-message success" style="position: static; animation: none; text-align: center;">
+            ✅ 2FA is currently <strong>active</strong> on your account.
+        </div>
+
+        <div style="text-align: center; margin: 20px 0;">
+            <p>You have <strong>{{ remaining }}</strong> recovery code{{ 's' if remaining != 1 else '' }} remaining.</p>
+            <p style="font-size: 0.9rem; color: var(--text-light);">
+                <a href="{{ url_for('setup_2fa') }}?regenerate=1" style="color: var(--accent);">Generate new recovery codes</a> (invalidates old ones)
+            </p>
+        </div>
+
+        <div style="text-align: center; margin-top: 24px;">
+            <form method="POST" onsubmit="return confirm('Are you sure you want to disable 2FA? This will lower your account security.');">
+                <input type="hidden" name="action" value="disable">
+                <button type="submit" class="btn btn-danger">🔓 Disable Two-Factor Authentication</button>
+            </form>
+        </div>
+
+        <p style="text-align: center; margin-top: 16px;">
+            <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+        </p>
+
+    {% else %}
+        {# ── Step 1: Setup ── #}
+        <h2 style="text-align: center;">🔐 Set Up Two-Factor Authentication</h2>
+
+        {% if step == 'verify' %}
+            {# ── Step 2: Verify the code ── #}
+            <p style="text-align: center; color: var(--text-light); margin-bottom: 20px;">
+                Step 2 of 2: Enter the 6-digit code from your authenticator app to confirm setup.
+            </p>
+
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div style="background: white; border-radius: 12px; padding: 16px; display: inline-block;">
+                    {{ qr_svg|safe }}
+                </div>
+            </div>
+
+            <div style="background: var(--light); border-radius: 8px; padding: 16px; margin: 16px 0;">
+                <p style="font-size: 0.85rem; text-align: center;">
+                    <strong>Manual setup key:</strong>
+                    <code style="display: block; margin-top: 8px; font-size: 1rem; word-break: break-all; background: white; padding: 8px; border-radius: 4px;">{{ secret }}</code>
+                </p>
+            </div>
+
+            <form method="POST">
+                <input type="hidden" name="action" value="verify">
+                <div class="form-group">
+                    <label for="code">Enter the 6-digit code from your authenticator app</label>
+                    <input type="text" id="code" name="code" required placeholder="000000"
+                           style="text-align: center; font-size: 1.5rem; letter-spacing: 8px;"
+                           maxlength="6" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1.1rem; padding: 12px;">
+                    ✅ Verify and Enable 2FA
+                </button>
+            </form>
+
+        {% else %}
+            {# ── Step 1: Show QR code ── #}
+            <p style="text-align: center; color: var(--text-light); margin-bottom: 20px;">
+                Step 1 of 2: Scan this QR code with your authenticator app
+                (Google Authenticator, Authy, Microsoft Authenticator, etc.)
+            </p>
+
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div style="background: white; border-radius: 12px; padding: 16px; display: inline-block; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                    {{ qr_svg|safe }}
+                </div>
+            </div>
+
+            <div style="background: var(--light); border-radius: 8px; padding: 16px; margin: 16px 0;">
+                <p style="font-size: 0.85rem; text-align: center;">
+                    <strong>Can't scan the QR code?</strong> Use this manual setup key:
+                    <code style="display: block; margin-top: 8px; font-size: 1rem; word-break: break-all; background: white; padding: 8px; border-radius: 4px;">{{ secret }}</code>
+                </p>
+            </div>
+
+            <form method="POST" style="text-align: center;">
+                <input type="hidden" name="action" value="verify">
+                <button type="submit" class="btn btn-primary" style="font-size: 1.1rem; padding: 12px 32px;">
+                    ✅ I've Scanned It — Continue
+                </button>
+            </form>
+
+            <p style="text-align: center; margin-top: 16px;">
+                <a href="{{ url_for('dashboard') }}" style="color: var(--text-light); font-size: 0.9rem;">
+                    ← Cancel and go back
+                </a>
+            </p>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}
