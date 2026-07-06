@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}User Management{% endblock %}
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin: 24px 0;">
+    <h1>👥 User Management</h1>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline">← Back to Admin</a>
+</div>
+
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>2FA</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <span class="tag" style="
+                        {% if user.role == 'owner' %}background: #d4a017; color: white;
+                        {% elif user.role == 'admin' %}background: #e94560; color: white;
+                        {% elif user.role == 'editor' %}background: #1565c0; color: white;
+                        {% else %}background: #666; color: white;{% endif %}
+                    ">
+                        {% if user.role == 'owner' %}👑 Owner
+                        {% elif user.role == 'admin' %}🛡️ Admin
+                        {% elif user.role == 'editor' %}✏️ Editor
+                        {% else %}👤 User{% endif %}
+                    </span>
+                </td>
+                <td>
+                    {% if user.totp_enabled %}
+                        <span style="color: var(--success);">✅ Enabled</span>
+                    {% else %}
+                        <span style="color: var(--text-light);">❌ Disabled</span>
+                    {% endif %}
+                </td>
+                <td>{{ user.created_at[:10] }}</td>
+                <td>
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                        {% if user.id != session.user_id %}
+                            <!-- Role change form -->
+                            <form method="POST" action="{{ url_for('admin_edit_role', user_id=user.id) }}" style="display: flex; gap: 4px; align-items: center;">
+                                <select name="role" style="padding: 4px 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.8rem;">
+                                    <option value="user" {% if user.role == 'user' %}selected{% endif %}>User</option>
+                                    <option value="editor" {% if user.role == 'editor' %}selected{% endif %}>Editor</option>
+                                    {% if session.role == 'owner' %}
+                                        <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Admin</option>
+                                        <option value="owner" {% if user.role == 'owner' %}selected{% endif %}>Owner</option>
+                                    {% elif session.role == 'admin' and user.role in ('editor', 'user') %}
+                                        <option value="admin" {% if user.role == 'admin' %}selected{% endif %} disabled>Admin</option>
+                                    {% endif %}
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-secondary">Set</button>
+                            </form>
+
+                            <!-- Delete user -->
+                            <form method="POST" action="{{ url_for('admin_delete_user', user_id=user.id) }}"
+                                  onsubmit="return confirm('Delete user {{ user.name }}? This will remove all their trees, people, and records.');">
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        {% else %}
+                            <span style="color: var(--text-light); font-size: 0.85rem;">(You)</span>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

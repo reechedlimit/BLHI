@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Verify 2FA{% endblock %}
+{% block content %}
+<div class="card" style="max-width: 500px; margin: 40px auto;">
+    <h2 style="text-align: center;">🔐 Two-Factor Authentication</h2>
+    <p style="text-align: center; color: var(--text-light); margin-bottom: 24px;">
+        Enter the verification code from your authenticator app.
+    </p>
+
+    {% if error %}
+        <div class="flash-message error" style="position: static; margin-bottom: 16px; animation: none;">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <form method="POST">
+        <div class="form-group">
+            <label for="code">Authentication Code</label>
+            <input type="text" id="code" name="code" required placeholder="000000"
+                   style="text-align: center; font-size: 1.5rem; letter-spacing: 8px;"
+                   maxlength="6" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1.1rem; padding: 12px;">
+            ✅ Verify
+        </button>
+    </form>
+
+    <details style="margin-top: 20px; text-align: center;">
+        <summary style="cursor: pointer; color: var(--text-light); font-size: 0.9rem;">
+            Lost access to your authenticator app?
+        </summary>
+        <div style="margin-top: 12px;">
+            <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 8px;">
+                Enter a recovery code instead.
+            </p>
+            <form method="POST">
+                <div class="form-group">
+                    <label for="recovery_code">Recovery Code</label>
+                    <input type="text" id="recovery_code" name="code" required
+                           placeholder="XXXX-XXXX" style="text-align: center; letter-spacing: 2px;">
+                    <input type="hidden" name="is_recovery" value="1">
+                </div>
+                <button type="submit" class="btn btn-outline" style="width: 100%;">
+                    🔑 Use Recovery Code
+                </button>
+            </form>
+        </div>
+    </details>
+
+    <p style="text-align: center; margin-top: 16px;">
+        <a href="{{ url_for('logout') }}" style="color: var(--text-light); font-size: 0.9rem;">
+            ← Back to login
+        </a>
+    </p>
+</div>
+{% endblock %}
