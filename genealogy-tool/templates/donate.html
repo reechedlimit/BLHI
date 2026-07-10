@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Us — Black Lineage & Heritage Institute</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='donate.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">BLHI</div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/#problem">The Void</a></li>
+                <li><a href="/#mission">Our Mission</a></li>
+                <li><a href="/#impact">Impact</a></li>
+                <li><a href="{{ url_for('donate') }}" class="nav-active">Donate</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Donate Hero -->
+        <section class="donate-hero">
+            <div class="donate-hero-overlay"></div>
+            <div class="donate-hero-content fade-in">
+                <p class="donate-hero-suptitle">Your contribution becomes a bridge across generations</p>
+                <h1>Every gift rebuilds what was erased.</h1>
+                <p class="donate-hero-subtitle">Your donation funds genealogy tools, archival preservation, community workshops, and research scholarships — turning the pain of lost histories into the power of rediscovered identity.</p>
+            </div>
+        </section>
+
+        <!-- Why Donate -->
+        <section class="why-donate section-padding">
+            <div class="container">
+                <h2 class="section-title text-center">Why Your Gift Matters</h2>
+                <div class="why-grid">
+                    <div class="why-card reveal">
+                        <div class="why-icon">📜</div>
+                        <h3>Preserve Records</h3>
+                        <p>Digitize Freedmen's Bureau records, census documents, and family Bibles before they crumble into dust. Every record saved is a name restored to history.</p>
+                    </div>
+                    <div class="why-card reveal">
+                        <div class="why-icon">🔍</div>
+                        <h3>Empower Discovery</h3>
+                        <p>Provide free genealogy tools and research scholarships so every Black family can trace their roots — regardless of income.</p>
+                    </div>
+                    <div class="why-card reveal">
+                        <div class="why-icon">🤝</div>
+                        <h3>Build Community</h3>
+                        <p>Fund heritage tours, storytelling workshops, and curriculum development that brings our collective history to life for the next generation.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Donation Tiers -->
+        <section class="donation-tiers section-padding">
+            <div class="container">
+                <h2 class="section-title text-center">Choose Your Level of Impact</h2>
+                <p class="tiers-intro text-center">Every contribution — no matter the size — moves us closer to a world where every Black family can reclaim their full story.</p>
+                
+                <div class="tiers-grid">
+                    <div class="tier-card reveal">
+                        <div class="tier-header">
+                            <span class="tier-amount">$25</span>
+                            <span class="tier-name">Seed Planter</span>
+                        </div>
+                        <div class="tier-body">
+                            <p>Funds the digitization of one family record or census page, keeping a name alive for generations to come.</p>
+                            <ul class="tier-perks">
+                                <li>Monthly newsletter access</li>
+                                <li>Name listed on our donor wall</li>
+                                <li>Social media thank-you feature</li>
+                            </ul>
+                        </div>
+                        <div class="tier-footer">
+                            <a href="https://buy.stripe.com/eVq5kD3mFfg4c2d8HZbMQ00" class="btn btn-primary donate-btn" target="_blank" rel="noopener">Give $25</a>
+                        </div>
+                    </div>
+
+                    <div class="tier-card tier-featured reveal">
+                        <div class="tier-badge">Most Popular</div>
+                        <div class="tier-header">
+                            <span class="tier-amount">$50</span>
+                            <span class="tier-name">Heritage Builder</span>
+                        </div>
+                        <div class="tier-body">
+                            <p>Provides research supplies for one community genealogy workshop, helping families connect with their roots together.</p>
+                            <ul class="tier-perks">
+                                <li>All Seed Planter benefits</li>
+                                <li>Exclusive webinar access</li>
+                                <li>Personalized impact report</li>
+                                <li>Early access to new archives</li>
+                            </ul>
+                        </div>
+                        <div class="tier-footer">
+                            <a href="https://buy.stripe.com/eVq5kD3mFfg4c2d8HZbMQ00" class="btn btn-gold donate-btn" target="_blank" rel="noopener">Give $50</a>
+                        </div>
+                    </div>
+
+                    <div class="tier-card reveal">
+                        <div class="tier-header">
+                            <span class="tier-amount">$100</span>
+                            <span class="tier-name">Legacy Keeper</span>
+                        </div>
+                        <div class="tier-body">
+                            <p>Sponsors a full genealogy research session for one family — from census searches to Freedmen's Bureau records.</p>
+                            <ul class="tier-perks">
+                                <li>All Heritage Builder benefits</li>
+                                <li>Recognition in annual report</li>
+                                <li>Invitation to donor appreciation event</li>
+                                <li>Personal lineage research consultation</li>
+                            </ul>
+                        </div>
+                        <div class="tier-footer">
+                            <a href="https://buy.stripe.com/eVq5kD3mFfg4c2d8HZbMQ00" class="btn btn-primary donate-btn" target="_blank" rel="noopener">Give $100</a>
+                        </div>
+                    </div>
+
+                    <div class="tier-card reveal">
+                        <div class="tier-header">
+                            <span class="tier-amount">$250</span>
+                            <span class="tier-name">Ancestor Circle</span>
+                        </div>
+                        <div class="tier-body">
+                            <p>Funds a full family history documentation package — including archival records, narrative writing, and a family tree publication.</p>
+                            <ul class="tier-perks">
+                                <li>All Legacy Keeper benefits</li>
+                                <li>Founding Donor status</li>
+                                <li>Featured story on our website</li>
+                                <li>Commemorative heritage gift</li>
+                                <li>Quarterly impact briefings</li>
+                            </ul>
+                        </div>
+                        <div class="tier-footer">
+                            <a href="https://buy.stripe.com/eVq5kD3mFfg4c2d8HZbMQ00" class="btn btn-gold donate-btn" target="_blank" rel="noopener">Give $250</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Amount -->
+                <div class="custom-donation reveal">
+                    <h3>Choose Your Own Amount</h3>
+                    <p>Not sure what's right for you? Any gift helps us move closer to a world where every Black family can reclaim their story.</p>
+                    <a href="https://buy.stripe.com/eVq5kD3mFfg4c2d8HZbMQ00" class="btn btn-primary custom-btn" target="_blank" rel="noopener">Give Any Amount →</a>
+                    <p class="tax-note">Contributions are tax-deductible to the fullest extent permitted by law. We are currently operating under fiscal sponsorship while our 501(c)(3) application is in process. All donations will be receipted accordingly.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Impact Preview -->
+        <section class="donate-impact section-padding">
+            <div class="container">
+                <h2 class="section-title text-center">Your Gift in Action</h2>
+                <div class="donate-impact-grid">
+                    <div class="donate-impact-item reveal">
+                        <div class="donate-impact-value">$25</div>
+                        <p>Digitizes one precious family record — a census page, a marriage license, a letter from a grandparent — before it's lost to time.</p>
+                    </div>
+                    <div class="donate-impact-item reveal">
+                        <div class="donate-impact-value">$100</div>
+                        <p>Funds a full genealogy session for one family, connecting them to ancestors they thought were lost forever.</p>
+                    </div>
+                    <div class="donate-impact-item reveal">
+                        <div class="donate-impact-value">$500</div>
+                        <p>Sponsors a community heritage workshop, helping 20+ families begin their lineage research journey together.</p>
+                    </div>
+                    <div class="donate-impact-item reveal">
+                        <div class="donate-impact-value">$1,000</div>
+                        <p>Establishes a named research fund in your family's honor, supporting genealogy access for underserved communities.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA -->
+        <section class="donate-final-cta section-padding">
+            <div class="container text-center">
+                <h2 class="final-cta-title">Be Part of the Reclamation</h2>
+                <p class="final-cta-text">The ancestors are counting on us. Every name restored, every story told, every lineage reclaimed — it starts with people like you who refuse to let history be forgotten.</p>
+                <a href="https://buy.stripe.com/eVq5kD3mFfg4c2d8HZbMQ00" class="btn btn-primary btn-large" target="_blank" rel="noopener">Make Your Gift Now</a>
+                <p class="tax-note mt-2">Contributions are tax-deductible via our fiscal sponsor (pending 501(c)(3) final approval).</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-mission">
+                    <div class="logo">BLHI</div>
+                    <p>Every name matters. Every story counts. Every lineage lives.</p>
+                    <p class="footer-tagline">Black Lineage & Heritage Institute — Reclaiming our roots, restoring our futures.</p>
+                </div>
+                <div class="footer-links">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/#mission">Our Mission</a></li>
+                        <li><a href="/#impact">Impact</a></li>
+                        <li><a href="{{ url_for('donate') }}">Donate</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Black Lineage & Heritage Institute. All rights reserved. | <a href="https://buy.stripe.com/eVq5kD3mFfg4c2d8HZbMQ00" target="_blank" rel="noopener">Make a Donation</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>

@@ -19,6 +19,7 @@ from werkzeug.utils import secure_filename
 
 from config import Config
 from models import get_db, init_db, run_migrations
+from newsletter_bp import newsletter_bp, init_subscribers_table
 from auth import (
     create_user, verify_login, login_required, admin_required, owner_required,
     role_at_least, get_user, get_all_users, update_user_role,
@@ -32,6 +33,7 @@ from auth import (
 app = Flask(__name__)
 app.config.from_object(Config)
 app.secret_key = Config.SECRET_KEY
+app.register_blueprint(newsletter_bp)
 
 # Initialize database on first run
 if not os.path.exists(Config.DATABASE_PATH):
@@ -46,6 +48,7 @@ else:
 
 # Run migrations for existing databases
 run_migrations()
+init_subscribers_table()
 
 
 # ─── Before Request ──────────────────────────────────────────────────────
@@ -55,7 +58,7 @@ def before_request():
     """Check session expiry and 2FA verification on every request."""
     # Static files, public routes, and auth routes are exempt from 2FA check
     exempt_endpoints = ['static', 'login', 'register', 'logout',
-                        'verify_2fa', 'uploaded_file', 'index', 'about']
+                        'verify_2fa', 'uploaded_file', 'index', 'about', 'donate', 'programs']
     if request.endpoint in exempt_endpoints:
         return
 
@@ -109,6 +112,18 @@ def index():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+
+@app.route('/donate')
+def donate():
+    """Donation / Support Us page."""
+    return render_template('donate.html')
+
+
+@app.route('/programs')
+def programs():
+    """Our Programs page — three pillars."""
+    return render_template('programs.html')
 
 
 # ─── Auth Routes ─────────────────────────────────────────────────────────
