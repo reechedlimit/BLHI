@@ -1,0 +1,229 @@
+<!-- 
+  BLHI Newsletter Signup Component
+  Drop-in embeddable form for subscribing to the Black Lineage & Heritage Institute newsletter.
+  Posts to /api/subscribe endpoint (JSON). Displays success/error messages inline.
+-->
+<div class="blhi-newsletter-signup">
+  <style>
+    .blhi-newsletter-signup {
+      --primary-gold: #C9A84C;
+      --dark-charcoal: #1A1A1A;
+      --deep-brown: #2C1810;
+      --warm-amber: #D4880F;
+      --deep-burgundy: #6B1D3A;
+      --warm-cream: #FFF8E7;
+      --soft-sand: #E8D5B7;
+      --text-color: #333;
+      --light-text: #FFF8E7;
+      --white: #ffffff;
+      --success: #2e7d32;
+      --error: #c62828;
+      --heading-font: 'Playfair Display', Georgia, serif;
+      --body-font: 'Inter', 'Segoe UI', sans-serif;
+      
+      font-family: var(--body-font);
+      background: var(--dark-charcoal);
+      border-radius: 12px;
+      padding: 2.5rem;
+      max-width: 480px;
+      margin: 0 auto;
+      color: var(--light-text);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .blhi-newsletter-signup::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-gold), var(--warm-amber), var(--primary-gold));
+    }
+
+    .blhi-newsletter-signup h3 {
+      font-family: var(--heading-font);
+      font-size: 1.5rem;
+      color: var(--primary-gold);
+      margin: 0 0 0.5rem 0;
+      line-height: 1.3;
+    }
+
+    .blhi-newsletter-signup p {
+      font-size: 0.9rem;
+      opacity: 0.85;
+      margin: 0 0 1.5rem 0;
+      line-height: 1.5;
+    }
+
+    .blhi-newsletter-signup .form-row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: stretch;
+    }
+
+    .blhi-newsletter-signup input[type="email"] {
+      flex: 1;
+      padding: 0.85rem 1rem;
+      border: 2px solid rgba(201, 168, 76, 0.3);
+      border-radius: 6px;
+      font-family: var(--body-font);
+      font-size: 0.95rem;
+      background: rgba(255,255,255,0.08);
+      color: var(--light-text);
+      outline: none;
+      transition: border-color 0.3s, background 0.3s;
+      min-width: 0;
+    }
+
+    .blhi-newsletter-signup input[type="email"]::placeholder {
+      color: rgba(255, 248, 231, 0.5);
+    }
+
+    .blhi-newsletter-signup input[type="email"]:focus {
+      border-color: var(--primary-gold);
+      background: rgba(255,255,255,0.12);
+    }
+
+    .blhi-newsletter-signup button {
+      padding: 0.85rem 1.5rem;
+      background: var(--primary-gold);
+      color: var(--dark-charcoal);
+      border: none;
+      border-radius: 6px;
+      font-family: var(--body-font);
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s;
+      white-space: nowrap;
+    }
+
+    .blhi-newsletter-signup button:hover {
+      background: var(--warm-amber);
+      transform: translateY(-1px);
+    }
+
+    .blhi-newsletter-signup button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .blhi-newsletter-signup .blhi-msg {
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: none;
+      animation: blhiFadeIn 0.3s ease;
+    }
+
+    .blhi-newsletter-signup .blhi-msg.success {
+      display: block;
+      background: rgba(46, 125, 50, 0.2);
+      color: #81c784;
+      border: 1px solid rgba(46, 125, 50, 0.4);
+    }
+
+    .blhi-newsletter-signup .blhi-msg.error {
+      display: block;
+      background: rgba(198, 40, 40, 0.2);
+      color: #ef9a9a;
+      border: 1px solid rgba(198, 40, 40, 0.4);
+    }
+
+    .blhi-newsletter-signup .blhi-msg.loading {
+      display: block;
+      background: rgba(201, 168, 76, 0.1);
+      color: var(--primary-gold);
+      border: 1px solid rgba(201, 168, 76, 0.3);
+    }
+
+    @keyframes blhiFadeIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .blhi-newsletter-signup { padding: 1.5rem; }
+      .blhi-newsletter-signup .form-row { flex-direction: column; }
+      .blhi-newsletter-signup button { width: 100%; }
+    }
+  </style>
+
+  <h3>📬 Join Our Mailing List</h3>
+  <p>Stay connected with Black heritage resources, genealogy tips, and community events. No spam, unsubscribe anytime.</p>
+
+  <form class="blhi-form" onsubmit="return false;">
+    <div class="form-row">
+      <input type="email" class="blhi-email" placeholder="Enter your email address" required autocomplete="email">
+      <button type="submit" class="blhi-submit">Subscribe</button>
+    </div>
+    <div class="blhi-msg"></div>
+  </form>
+
+  <script>
+    (function() {
+      var form = document.currentScript ? document.currentScript.closest('.blhi-newsletter-signup').querySelector('.blhi-form') : null;
+      if (!form) {
+        // Fallback: find the nearest form
+        var scripts = document.getElementsByTagName('script');
+        var lastScript = scripts[scripts.length - 1];
+        if (lastScript) {
+          form = lastScript.closest('.blhi-newsletter-signup');
+          if (form) form = form.querySelector('.blhi-form');
+        }
+      }
+      if (!form) return;
+
+      var emailInput = form.querySelector('.blhi-email');
+      var submitBtn = form.querySelector('.blhi-submit');
+      var msgEl = form.querySelector('.blhi-msg');
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var email = emailInput.value.trim();
+
+        if (!email) {
+          showMsg('Please enter your email address.', 'error');
+          return;
+        }
+
+        submitBtn.disabled = true;
+        showMsg('Subscribing...', 'loading');
+
+        fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email })
+        })
+        .then(function(resp) { return resp.json(); })
+        .then(function(data) {
+          if (data.success) {
+            showMsg(data.message || 'Thank you for subscribing!', 'success');
+            emailInput.value = '';
+          } else {
+            showMsg(data.error || 'Something went wrong. Please try again.', 'error');
+          }
+        })
+        .catch(function() {
+          showMsg('Network error. Please try again later.', 'error');
+        })
+        .finally(function() {
+          submitBtn.disabled = false;
+        });
+      });
+
+      function showMsg(text, type) {
+        msgEl.textContent = text;
+        msgEl.className = 'blhi-msg ' + type;
+      }
+    })();
+  </script>
+</div>

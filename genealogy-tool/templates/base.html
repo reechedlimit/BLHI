@@ -475,6 +475,8 @@
             </a>
             <div class="nav-links">
                 <a href="{{ url_for('index') }}">Home</a>
+                <a href="{{ url_for('programs') }}">Programs</a>
+                <a href="{{ url_for('donate') }}" style="color: var(--primary-gold);">Donate</a>
                 {% if session.user_id %}
                     <a href="{{ url_for('dashboard') }}">Dashboard</a>
                     <a href="{{ url_for('search') }}">Search</a>
@@ -518,7 +520,9 @@
             <p>Every name matters. Every story counts. Every lineage lives.</p>
             <p>&copy; 2026 <strong>Black Lineage & Heritage Institute</strong></p>
             <p style="margin-top: 1rem; font-size: 0.85rem;">
-                <a href="{{ url_for('about') }}">About the Project</a> &middot;
+                <a href="{{ url_for('about') }}">About</a> &middot;
+                <a href="{{ url_for('programs') }}">Programs</a> &middot;
+                <a href="{{ url_for('donate') }}">Donate</a> &middot;
                 <a href="{{ url_for('index') }}">Home</a>
             </p>
         </div>

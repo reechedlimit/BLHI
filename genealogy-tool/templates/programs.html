@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% block title %}Our Programs{% endblock %}
+{% block extra_head %}
+<style>
+    .prog-hero {
+        background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.7)), url("{{ url_for('static', filename='assets/hero-bg.jpg') }}");
+        background-size: cover;
+        background-position: center 30%;
+        padding: 120px 2rem 80px;
+        text-align: center;
+        color: white;
+        margin-top: -1rem;
+    }
+    .prog-hero h1 {
+        color: white;
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+    }
+    .prog-hero p {
+        font-size: 1.3rem;
+        max-width: 650px;
+        margin: 0 auto;
+        opacity: 0.9;
+        font-weight: 300;
+    }
+    .prog-pillar {
+        padding: 80px 0;
+    }
+    .prog-pillar:nth-child(even) {
+        background-color: var(--soft-sand);
+    }
+    .prog-pillar:nth-child(odd) {
+        background-color: var(--warm-cream);
+    }
+    .pillar-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+    }
+    .pillar-icon {
+        font-size: 5rem;
+        text-align: center;
+    }
+    .pillar-text h2 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+        color: var(--deep-brown);
+    }
+    .pillar-text .pillar-tag {
+        display: inline-block;
+        background: var(--primary-gold);
+        color: var(--dark-charcoal);
+        padding: 0.3rem 1rem;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 1.5rem;
+    }
+    .pillar-text p {
+        font-size: 1.1rem;
+        opacity: 0.8;
+        line-height: 1.8;
+        margin-bottom: 1rem;
+    }
+    .pillar-features {
+        list-style: none;
+        padding: 0;
+        margin: 1.5rem 0;
+    }
+    .pillar-features li {
+        padding: 0.6rem 0;
+        padding-left: 2rem;
+        position: relative;
+        opacity: 0.85;
+    }
+    .pillar-features li::before {
+        content: '✦';
+        position: absolute;
+        left: 0;
+        color: var(--primary-gold);
+        font-weight: 700;
+    }
+    .pillar-cta {
+        margin-top: 2rem;
+    }
+    .prog-cta-section {
+        background: linear-gradient(135deg, var(--deep-brown) 0%, var(--dark-charcoal) 100%);
+        color: white;
+        text-align: center;
+        padding: 80px 0;
+    }
+    .prog-cta-section h2 {
+        color: var(--primary-gold);
+        font-size: 2.8rem;
+        margin-bottom: 1.5rem;
+    }
+    .prog-cta-section p {
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto 2rem;
+        opacity: 0.9;
+    }
+    @media (max-width: 768px) {
+        .prog-hero h1 { font-size: 2.5rem; }
+        .pillar-content { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
+        .pillar-icon { font-size: 3rem; }
+    }
+</style>
+{% endblock %}
+{% block content %}
+<section class="prog-hero">
+    <h1>Our Programs</h1>
+    <p>Three interconnected pillars — each one a bridge between past and future, loss and reclamation, silence and story.</p>
+</section>
+
+<section class="prog-pillar">
+    <div class="container">
+        <div class="pillar-content">
+            <div class="pillar-icon">🌳</div>
+            <div class="pillar-text">
+                <span class="pillar-tag">Pillar One</span>
+                <h2>Genealogy Documentation Tool</h2>
+                <p>Our flagship digital platform purpose-built for Black family history research. Unlike generic genealogy tools, our platform is designed with the unique challenges of African American lineage in mind — navigating the 1870 Census Wall, Freedmen's Bureau records, and oral history preservation.</p>
+                <ul class="pillar-features">
+                    <li>Multi-generational family tree builder with smart record suggestions</li>
+                    <li>Secure digital vault for census records, certificates, and photographs</li>
+                    <li>Freedmen's Bureau record integration and indexing</li>
+                    <li>Oral history recording and transcription tools</li>
+                    <li>Collaborative family research with shared access</li>
+                </ul>
+                <div class="pillar-cta">
+                    <a href="{{ url_for('register') }}" class="btn btn-primary">Start Your Family Tree</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="prog-pillar">
+    <div class="container">
+        <div class="pillar-content">
+            <div class="pillar-text">
+                <span class="pillar-tag">Pillar Two</span>
+                <h2>Community Workshops</h2>
+                <p>Hands-on, in-person and virtual workshops that teach the art and science of Black genealogy research. From beginner "Where Do I Start?" sessions to advanced archival research techniques, we meet every family at their point of need.</p>
+                <ul class="pillar-features">
+                    <li>Beginner genealogy workshops — start your research journey with expert guidance</li>
+                    <li>Advanced document analysis — learn to read census records, plantation ledgers, and more</li>
+                    <li>DNA and genetic genealogy — understand how DNA testing connects to your research</li>
+                    <li>Oral history preservation — capture family stories before they're lost</li>
+                    <li>Heritage tours — visit historical sites and archives with expert guides</li>
+                </ul>
+                <div class="pillar-cta">
+                    <a href="{{ url_for('register') }}" class="btn btn-primary">View Upcoming Workshops</a>
+                </div>
+            </div>
+            <div class="pillar-icon">🤝</div>
+        </div>
+    </div>
+</section>
+
+<section class="prog-pillar">
+    <div class="container">
+        <div class="pillar-content">
+            <div class="pillar-icon">📚</div>
+            <div class="pillar-text">
+                <span class="pillar-tag">Pillar Three</span>
+                <h2>Archival Preservation</h2>
+                <p>We preserve what others let crumble. Our archival program digitizes at-risk records, indexes historically significant documents, and creates a permanent digital home for Black family history materials that might otherwise be lost forever.</p>
+                <ul class="pillar-features">
+                    <li>Digitization of family Bibles, letters, photographs, and certificates</li>
+                    <li>Freedmen's Bureau record indexing and transcription</li>
+                    <li>Census record extraction and family linking</li>
+                    <li>Community archive partnerships with local historical societies</li>
+                    <li>Digital preservation training for community organizations</li>
+                </ul>
+                <div class="pillar-cta">
+                    <a href="{{ url_for('donate') }}" class="btn btn-primary">Support Preservation</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="prog-cta-section">
+    <div class="container">
+        <h2>Every Program Needs You</h2>
+        <p>Whether you're researching your own family, volunteering at a workshop, or donating to preserve a record — you are part of the reclamation.</p>
+        <a href="{{ url_for('donate') }}" class="btn btn-primary">Support Our Work</a>
+    </div>
+</section>
+{% endblock %}
