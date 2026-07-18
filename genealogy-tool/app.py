@@ -157,7 +157,7 @@ def register():
         user = get_user(user_id)
         setup_user_session(user)
         flash("Account created! Welcome to the Family History Documentation Tool.", "success")
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('dashboard'), 303)
 
     return render_template('register.html')
 
@@ -183,10 +183,10 @@ def login():
             if user.get('totp_enabled'):
                 session['totp_verified'] = False
                 session['pre_2fa_user'] = user
-                return redirect(url_for('verify_2fa'))
+                return redirect(url_for('verify_2fa'), 303)
 
             flash(f"Welcome back, {user['name']}!", "success")
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('dashboard'), 303)
         else:
             flash("Invalid email or password.", "error")
 
@@ -1104,6 +1104,26 @@ def api_subscribers():
 def uploaded_file(filename):
     """Serve uploaded files."""
     return send_from_directory(Config.UPLOAD_FOLDER, filename)
+
+
+# ─── Error Handlers ───────────────────────────────────────────────────────
+
+@app.errorhandler(404)
+def not_found(e):
+    """Custom 404 page with BLHI branding."""
+    return render_template('404.html'), 404
+
+
+@app.errorhandler(403)
+def forbidden(e):
+    """Custom 403 page with BLHI branding."""
+    return render_template('403.html'), 403
+
+
+@app.errorhandler(500)
+def server_error(e):
+    """Custom 500 page with BLHI branding."""
+    return render_template('500.html'), 500
 
 
 # ─── Main ────────────────────────────────────────────────────────────────
