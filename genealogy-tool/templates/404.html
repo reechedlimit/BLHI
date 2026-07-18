@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Page Not Found{% endblock %}
+{% block content %}
+<div style="max-width: 600px; margin: 80px auto; text-align: center;">
+    <div style="font-size: 8rem; font-family: var(--heading-font); color: var(--primary-gold); line-height: 1; margin-bottom: 1rem;">404</div>
+    <h2 style="font-size: 2.2rem; margin-bottom: 1rem; color: var(--deep-brown);">Page Not Found</h2>
+    <p style="font-size: 1.1rem; color: var(--text-color); opacity: 0.8; margin-bottom: 2rem; max-width: 450px; margin-left: auto; margin-right: auto;">
+        The page you're looking for doesn't exist or has been moved. 
+        Even in the archives, not every trail leads where we expect — but the story continues.
+    </p>
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="{{ url_for('index') }}" class="btn btn-primary">← Back to Home</a>
+        <a href="{{ url_for('programs') }}" class="btn btn-outline">Explore Programs</a>
+    </div>
+</div>
+{% endblock %}

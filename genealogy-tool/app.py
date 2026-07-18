@@ -1106,6 +1106,26 @@ def uploaded_file(filename):
     return send_from_directory(Config.UPLOAD_FOLDER, filename)
 
 
+# ─── Error Handlers ───────────────────────────────────────────────────────
+
+@app.errorhandler(404)
+def not_found(e):
+    """Custom 404 page with BLHI branding."""
+    return render_template('404.html'), 404
+
+
+@app.errorhandler(403)
+def forbidden(e):
+    """Custom 403 page with BLHI branding."""
+    return render_template('403.html'), 403
+
+
+@app.errorhandler(500)
+def server_error(e):
+    """Custom 500 page with BLHI branding."""
+    return render_template('500.html'), 500
+
+
 # ─── Main ────────────────────────────────────────────────────────────────
 
 if __name__ == '__main__':

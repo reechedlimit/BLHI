@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Server Error{% endblock %}
+{% block content %}
+<div style="max-width: 600px; margin: 80px auto; text-align: center;">
+    <div style="font-size: 8rem; font-family: var(--heading-font); color: var(--warm-amber); line-height: 1; margin-bottom: 1rem;">500</div>
+    <h2 style="font-size: 2.2rem; margin-bottom: 1rem; color: var(--deep-brown);">Something Went Wrong</h2>
+    <p style="font-size: 1.1rem; color: var(--text-color); opacity: 0.8; margin-bottom: 2rem; max-width: 450px; margin-left: auto; margin-right: auto;">
+        Our archives are having a moment. We've been notified and will have things back in order shortly. 
+        Please try again in a few minutes.
+    </p>
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="{{ url_for('index') }}" class="btn btn-primary">← Back to Home</a>
+        <a href="{{ url_for('donate') }}" class="btn btn-outline">Support Us</a>
+    </div>
+</div>
+{% endblock %}
